@@ -4,22 +4,28 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Entity
-@Table(name = "biblioteca")
+@Table(name = "libro")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Biblioteca {
+public class Libro {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(nullable = false)
-    private String nombre;
+    private String titulo;
     
-    @OneToMany(mappedBy = "biblioteca", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Libro> libros;
+    @Column(nullable = false)
+    private String autor;
+    
+    @Column(nullable = false, unique = true)
+    private String categoria;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "biblioteca_id", nullable = false)
+    private Biblioteca biblioteca;
 }
